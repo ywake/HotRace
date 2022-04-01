@@ -89,7 +89,7 @@ gTest		:= $(gTestDir)/gtest $(gTestDir)/$(gTestVer)
 TESTDIR		:= ./tests/
 TESTSRCS_C	:= $(filter-out main.c,$(SRCS))
 TESTSRCS_CPP:= $(wildcard $(TESTDIR)*.cpp)
-TESTOBJS	:= $(addprefix $(SRCDIR), $(TESTSRCS_C:%.c=%.o)) \
+TESTOBJS	:= $(addprefix $(OBJDIR), $(TESTSRCS_C:%.c=%.o)) \
 				$(TESTSRCS_CPP:%.cpp=%.o)
 
 %.o: %.cpp

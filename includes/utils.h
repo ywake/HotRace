@@ -6,7 +6,7 @@
 /*   By: ywake <ywake@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 13:13:05 by ywake             #+#    #+#             */
-/*   Updated: 2022/04/01 13:13:07 by ywake            ###   ########.fr       */
+/*   Updated: 2022/04/01 17:30:17 by ywake            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,6 @@
 # define UTILS_H
 
 
+int		ft_strcmp(char const *s1, char const *s2);
 
 #endif

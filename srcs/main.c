@@ -6,21 +6,22 @@
 /*   By: ywake <ywake@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 12:54:39 by ywake             #+#    #+#             */
-/*   Updated: 2022/04/01 13:21:54 by ywake            ###   ########.fr       */
+/*   Updated: 2022/04/01 14:53:21 by ywake            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "avl.h"
+#include "io.h"
 
 static int insert_from_stdin(t_node *tree){
 	while (改行出るまで){
-	key = readline();
-	value = readline();
+	char *key = readline();
+	char *value = readline();
 	avl_insert(tree, key, value);
 	}
 }
 
-static int search(t_node *tree) {
+static int search(t_node *root) {
 	while (EOFまで)
 	{
 		char *keyword = readline();
@@ -31,7 +32,12 @@ static int search(t_node *tree) {
 
 int	main(void)
 {
-	insert_from_stdin();
-	search();
+	t_node	*root;
+	char	**input;  // ["key1", "value1", "", "search1", "search2", NULL]
+
+	input = read_stdin();
+	insert_from_stdin(root);
+	search(root);
+	free_all(input);
 	return (0);
 }

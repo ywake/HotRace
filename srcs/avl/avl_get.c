@@ -6,10 +6,12 @@
 /*   By: ywake <ywake@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 13:18:18 by ywake             #+#    #+#             */
-/*   Updated: 2022/04/01 13:18:18 by ywake            ###   ########.fr       */
+/*   Updated: 2022/04/01 18:06:33 by ywake            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "avl.h"
 
-
+t_node	*avl_get(t_node *root, char *key)
+{
+}
