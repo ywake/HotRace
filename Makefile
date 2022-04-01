@@ -8,11 +8,10 @@ uniq = $(if $1,$(firstword $1) $(call uniq,$(filter-out $(firstword $1),$1)))
 # Variables #
 #############
 
-NAME	:= program_name
-B_NAME	:= program_name_b
+NAME	:= hotrace
 CC		:= gcc
 INCLUDE	:= -I./includes
-CFLAGS	:= -g -Wall -Werror -Wextra $(INCLUDE)
+CFLAGS	:= -O3 -Wall -Werror -Wextra $(INCLUDE)
 LIBS	:=
 VPATH	:= srcs/
 
@@ -22,10 +21,6 @@ SRCDIRS	:= $(call uniq, $(dir $(SRCS)))
 OBJDIR	:= objs/
 OBJDIRS	:= $(addprefix $(OBJDIR), $(SRCDIRS))
 OBJS	:= $(addprefix $(OBJDIR), $(SRCS:%.c=%.o))
-
-B_SRCS	:= main_bonus.c
-B_OBJS	:= $(B_SRCS:%.c=$(SRCDIR)%.o)
-B_FLG	:= .bonus_flg
 
 DSTRCTR	:= ./tests/destructor.c
 
@@ -37,12 +32,6 @@ all: $(NAME)
 
 $(NAME): $(OBJDIRS) $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LIBS)
-
-bonus: $(B_FLG)
-
-$(B_FLG): $(OBJDIRS) $(B_OBJS)
-	$(CC) $(CFLAGS) $(B_OBJS) -o $(NAME) $(LIBS)
-	touch $(B_FLG)
 
 clean: FORCE
 	$(RM) $(OBJS) $(B_OBJS)
@@ -85,16 +74,6 @@ Darwin_leak: $(DSTRCTR) $(OBJDIRS) $(OBJS)
 Linux_leak: sani
 
 leak: $(shell uname)_leak
-
-bonus_sani: $(OBJDIRS) $(B_OBJS)
-	$(CC) $(CFLAGS) -fsanitize=address $(B_OBJS) -o $(B_NAME) $(LIBS)
-
-bonus_Darwin_leak: $(DSTRCTR) $(OBJDIRS) $(B_OBJS)
-	$(CC) $(CFLAGS) $(B_OBJS) $(DSTRCTR) -o $(B_NAME) $(LIBS)
-
-bonus_Linux_leak: bonus_sani
-
-bonus_leak: bonus_$(shell uname)_leak
 
 ##############
 # Test rules #
