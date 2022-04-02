@@ -39,7 +39,6 @@ t_node *avl_insert(t_node **root, char *key, char *value) {
   return new_node;
 }
 
-// TODO: strcmp を ft_strcmp に置き換える
 static t_node *avl_insert_sub(t_node *root, t_node *new_node) {
   t_node *parent;
   t_node *current;
@@ -48,15 +47,15 @@ static t_node *avl_insert_sub(t_node *root, t_node *new_node) {
   current = root;
   while (current) {
     parent = current;
-    if (strcmp(new_node->key, current->key) > 0)
+    if (ft_strcmp(new_node->key, current->key) > 0)
       current = current->right;
-    else if (strcmp(new_node->key, current->key) < 0)
+    else if (ft_strcmp(new_node->key, current->key) < 0)
       current = current->left;
   }
-  if (strcmp(new_node->key, parent->key) > 0) {
+  if (ft_strcmp(new_node->key, parent->key) > 0) {
     parent->right = new_node;
     new_node->parent = parent;
-  } else if (strcmp(new_node->key, parent->key) < 0) {
+  } else if (ft_strcmp(new_node->key, parent->key) < 0) {
     parent->left = new_node;
     new_node->parent = parent;
   }

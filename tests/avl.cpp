@@ -26,7 +26,7 @@ static void exepct_avl_tree_keeps_rules(t_node *root) {
   }
 }
 
-TEST(AVLTree, Random100000) {
+TEST(AVLTree, Random10000) {
   typedef std::map<std::string, std::string> map_type;
 
   srand(time(NULL));
@@ -39,11 +39,14 @@ TEST(AVLTree, Random100000) {
 
   printf("start insert data\n");
   for (int i = 0; i < MAX_NUM; ++i) {
-    char *str = ft_itoa(rand());
-    m[std::string(str)] = std::string(str);
-    t_node *new_node_ptr = avl_insert(&tree, strdup(str), strdup(str));
+    printf("i: %d\n", i);
+    char *key = ft_itoa(rand());
+    char *value = ft_itoa(i);
+    m[std::string(key)] = std::string(value);
+    t_node *new_node_ptr = avl_insert(&tree, strdup(key), strdup(value));
     EXPECT_TRUE(new_node_ptr);
-    free(str);
+    free(key);
+    free(value);
   }
 
   printf("start search data\n");

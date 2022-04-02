@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "avl.h"
+#include "utils.h"
 #include <string.h>
 
 t_node	*avl_get(t_node *root, char *key)
@@ -19,9 +20,9 @@ t_node	*avl_get(t_node *root, char *key)
 
 	current = root;
 	while (current) {
-		if (strcmp(key, current->key) > 0)
+		if (ft_strcmp(key, current->key) > 0)
 			current = current->right;
-		else if (strcmp(key, current->key) < 0)
+		else if (ft_strcmp(key, current->key) < 0)
 			current = current->left;
 		else
 			return current;
