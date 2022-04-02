@@ -5,19 +5,6 @@
 
 #define BUF_SIZE 200
 
-static void print_tree(t_node *root, int indent) {
-  if (root == NULL)
-    return;
-
-  print_tree(root->right, indent + 1);
-
-  for (int i = 0; i < indent; ++i)
-  	printf("\t");
-  printf("%s\n", root->key);
-
-  print_tree(root->left, indent + 1);
-}
-
 // https://www.cs.usfca.edu/~galles/visualization/AVLtree.html
 int main() {
   t_node *tree = NULL;
@@ -38,8 +25,9 @@ int main() {
 
     avl_insert(&tree, key, value);
 
-    print_tree(tree, 0);
+    avl_print_tree(tree, 0);
   }
+  avl_free_tree(tree);
 
   return 0;
 }

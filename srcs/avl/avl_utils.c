@@ -1,5 +1,6 @@
 #include <stddef.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include "avl.h"
 
 int avl_get_height(t_node *root) {
@@ -35,4 +36,25 @@ void avl_free_node(t_node* node) {
 	free(node->key);
 	free(node->value);
 	free(node);
+}
+
+void avl_free_tree(t_node *root) {
+	if (!root)
+		return;
+	avl_free_tree(root->left);
+	avl_free_tree(root->right);
+	avl_free_node(root);
+}
+
+void avl_print_tree(t_node *root, int indent) {
+  if (root == NULL)
+    return;
+
+  avl_print_tree(root->right, indent + 1);
+
+  for (int i = 0; i < indent; ++i)
+  	printf("\t");
+  printf("%s\n", root->key);
+
+  avl_print_tree(root->left, indent + 1);
 }

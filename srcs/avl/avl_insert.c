@@ -53,7 +53,6 @@ static t_node *avl_insert_sub(t_node *root, t_node *new_node) {
     else if (strcmp(new_node->key, current->key) < 0)
       current = current->left;
   }
-  printf("parent.key: %s\n", parent->key);
   if (strcmp(new_node->key, parent->key) > 0) {
     parent->right = new_node;
     new_node->parent = parent;
@@ -81,13 +80,15 @@ static t_node *avl_rebalance(t_node *new_node) {
   while (is_active && current) {
     height_diff = avl_get_height(current->left) - avl_get_height(current->right);
     if (height_diff > 1) {
-      if (avl_get_height(current->left) < avl_get_height(current->left->right))
+      height_diff = avl_get_height(current->left->left) - avl_get_height(current->left->right);
+      if (height_diff <= -1)
         current = avl_rotate_left_right(current);
       else
         current = avl_rotate_right(current);
 	  is_active = 0;
     } else if (height_diff < -1) {
-      if (avl_get_height(current->right) < avl_get_height(current->right->left))
+      height_diff = avl_get_height(current->right->left) - avl_get_height(current->right->right);
+      if (height_diff >= 1)
         current = avl_rotate_right_left(current);
       else
         current = avl_rotate_left(current);
