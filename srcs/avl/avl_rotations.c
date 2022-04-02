@@ -2,7 +2,6 @@
 #include "avl.h"
 
 t_node *avl_rotate_left(t_node *root) {
-  printf("Execute avl_rotate_left at %s\n", root->key);
   t_node *pivot;
 
   pivot = root->right;
@@ -24,7 +23,6 @@ t_node *avl_rotate_left(t_node *root) {
 }
 
 t_node *avl_rotate_right(t_node *root) {
-  printf("Execute avl_rotate_right at %s\n", root->key);
   t_node *pivot;
 
   pivot = root->left;
@@ -46,7 +44,6 @@ t_node *avl_rotate_right(t_node *root) {
 }
 
 t_node *avl_rotate_left_right(t_node *root) {
-  printf("Execute avl_rotate_left_right at %s\n", root->key);
   t_node *pivot;
 
   pivot = avl_rotate_left(root->left);
@@ -57,7 +54,6 @@ t_node *avl_rotate_left_right(t_node *root) {
 }
 
 t_node *avl_rotate_right_left(t_node *root) {
-  printf("Execute avl_rotate_right_left at %s\n", root->key);
   t_node *pivot;
 
   pivot = avl_rotate_right(root->right);
