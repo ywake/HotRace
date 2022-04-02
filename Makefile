@@ -1,10 +1,4 @@
 #############
-# Functions #
-#############
-
-uniq = $(if $1,$(firstword $1) $(call uniq,$(filter-out $(firstword $1),$1)))
-
-#############
 # Variables #
 #############
 
@@ -16,11 +10,10 @@ LIBS	:=
 VPATH	:= srcs/
 
 SRCS	:= main.c \
-			utils/ft_lite_split.c
-SRCDIRS	:= $(call uniq, $(dir $(SRCS)))
+			utils/ft_lite_split.c \
+			avl/avl_get.c
 
 OBJDIR	:= objs/
-OBJDIRS	:= $(addprefix $(OBJDIR), $(SRCDIRS))
 OBJS	:= $(addprefix $(OBJDIR), $(SRCS:%.c=%.o))
 
 DSTRCTR	:= ./tests/destructor.c
@@ -31,7 +24,7 @@ DSTRCTR	:= ./tests/destructor.c
 
 all: $(NAME)
 
-$(NAME): $(OBJDIRS) $(OBJS)
+$(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LIBS)
 
 clean: FORCE
@@ -48,10 +41,8 @@ norm: FORCE
 	&& exit 1 \
 	|| printf "$(GREEN)%s\n$(END)" "Norm OK!"
 
-$(OBJDIRS):
-	mkdir -p $@
-
 $(OBJDIR)%.o: %.c
+	mkdir -p $(OBJDIR)$(*D)
 	@printf "$(THIN)$(ITALIC)"
 	$(CC) $(CFLAGS) -c $< -o $@
 	@printf "$(END)"
