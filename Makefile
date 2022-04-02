@@ -11,7 +11,8 @@ VPATH	:= srcs/
 
 SRCS	:= main.c \
 			utils/ft_lite_split.c \
-			avl/avl_get.c avl/avl_insert.c avl/avl_rotations.c avl/avl_utils.c
+			utils/ft_strcmp.c \
+			avl/avl_get.c avl/avl_insert.c avl/avl_rebalance.c avl/avl_rotations.c avl/avl_utils.c
 
 OBJDIR	:= objs/
 OBJS	:= $(addprefix $(OBJDIR), $(SRCS:%.c=%.o))
