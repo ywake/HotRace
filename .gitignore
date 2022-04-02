@@ -9,6 +9,7 @@
 !README.md
 !**/
 !*.c
+!*.cpp
 !*.h
 
 

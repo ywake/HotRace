@@ -15,7 +15,8 @@ CFLAGS	:= -O3 -Wall -Werror -Wextra $(INCLUDE)
 LIBS	:=
 VPATH	:= srcs/
 
-SRCS	:= main.c
+SRCS	:= main.c \
+			utils/ft_lite_split.c
 SRCDIRS	:= $(call uniq, $(dir $(SRCS)))
 
 OBJDIR	:= objs/
@@ -103,7 +104,7 @@ $(gTest):
 	python $(gTestVer)/googletest/scripts/fuse_gtest_files.py $(gTestDir)
 	mv $(gTestVer) $(gTestDir)
 
-test: $(gTest) $(TESTOBJS)
+test: FORCE $(gTest) $(TESTOBJS)
 	@$(CXX) $(CXXFLAG) \
 		$(TESTOBJS) \
 		$(gTestDir)/$(gTestVer)/googletest/src/gtest_main.cc \
