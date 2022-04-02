@@ -6,7 +6,7 @@
 /*   By: ywake <ywake@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 13:54:05 by ywake             #+#    #+#             */
-/*   Updated: 2022/04/02 05:21:56 by ywake            ###   ########.fr       */
+/*   Updated: 2022/04/02 13:22:01 by ywake            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 // #define BUF_SIZE (1024 * 1024)
 #define BUF_SIZE (10)
 
-char	**read_abort(char *read_buf, char *file)
+static char	**read_abort(char *read_buf, char *file)
 {
 	free(read_buf);
 	free(file);
@@ -40,13 +40,12 @@ char	**read_stdin(void)
 	char	**input;
 
 	read_size = BUF_SIZE;
-	read_buf = NULL;
 	file = NULL;
+	read_buf = (char *)malloc(BUF_SIZE + 1);
+	if (read_buf == NULL)
+		return (read_abort(read_buf, file));
 	while (read_size > 0)
 	{
-		free_set((void **)&read_buf, (char *)malloc(BUF_SIZE + 1));
-		if (read_buf == NULL)
-			return (read_abort(read_buf, file));
 		read_size = read(STDIN_FILENO, read_buf, BUF_SIZE);
 		read_buf[read_size] = '\0';
 		if (read_size < 0)
