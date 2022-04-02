@@ -16,16 +16,17 @@
 
 t_node	*avl_get(t_node *root, char *key)
 {
-	t_node *current;
+	t_node	*current;
 
 	current = root;
-	while (current) {
+	while (current)
+	{
 		if (ft_strcmp(key, current->key) > 0)
 			current = current->right;
 		else if (ft_strcmp(key, current->key) < 0)
 			current = current->left;
 		else
-			return current;
+			return (current);
 	}
-	return current;
+	return (current);
 }
