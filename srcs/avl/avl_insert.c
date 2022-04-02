@@ -53,6 +53,7 @@ static t_node *avl_insert_sub(t_node *root, t_node *new_node) {
     else if (strcmp(new_node->key, current->key) < 0)
       current = current->left;
   }
+  printf("parent.key: %s\n", parent->key);
   if (strcmp(new_node->key, parent->key) > 0) {
     parent->right = new_node;
     new_node->parent = parent;
