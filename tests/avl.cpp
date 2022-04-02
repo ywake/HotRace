@@ -80,6 +80,23 @@ TEST(AVLTree, AlwaysKeepsRules) {
   avl_free_tree(tree);
 }
 
+TEST(AVLTree, InsertDuplicatedKeys) {
+  srand(time(NULL));
+
+  const int MAX_NUM = 10000;
+
+  t_node *tree = NULL;
+
+  for (int i = 0; i < MAX_NUM; ++i) {
+    char *str = ft_itoa(i % 100);
+    t_node *new_node_ptr = avl_insert(&tree, strdup(str), strdup(str));
+    EXPECT_TRUE(new_node_ptr);
+    free(str);
+    exepct_avl_tree_keeps_rules(tree);
+  }
+  avl_free_tree(tree);
+}
+
 /************** utils ****************/
 
 static int get_digit(int n) {
