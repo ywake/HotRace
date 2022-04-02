@@ -10,93 +10,89 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "utils.h"
+#include <stddef.h>
+#include <stdlib.h>
+#include <string.h>
+
 #include "avl.h"
+#include "utils.h"
 
-static t_node* avl_rotate_left(t_node *root);
-static t_node* avl_rotate_right(t_node *root);
-static t_node* avl_rotate_left_right(t_node *root);
-static t_node* avl_rotate_right_left(t_node *root);
-static size_t avl_get_height(t_node *root);
+static t_node *avl_rebalance(t_node *root);
+static t_node *avl_insert_sub(t_node *root, t_node *new_node);
 
-t_node	*avl_insert(t_node *root, char *key, char *value) {
-	// 挿入する場所までたどる
-	if (ft_strcmp(key, root->key) > 0 && root->right){
-		avl_insert(root->right, key, value);
-	} else if (ft_strcmp(key, root->key) < 0 && root->left){
-		avl_insert(root->left, key, value);
-	} else if (ft_strcmp(key, root->key) == 0) {
-		free(root->value);
-		root->value = value;
-		return root;
-	}
+t_node *avl_insert(t_node **root, char *key, char *value) {
+  t_node *new_root;
+  t_node *new_node;
 
-	t_node *node = malloc(sizeof(t_node));
-	node->key = key;
-	node->value = value;
-	// 挿入する
-	if (ft_strcmp(key, root->key) > 0){
-		root->right = node;
-	} else {
-		root->left = node;
-	}
-
-	// 平衡係数を計算して必要あれば回転する
+  new_node = avl_malloc_node(key, value);
+  if (!new_node)
+    return NULL;
+  if (*root == NULL) {
+    *root = new_node;
+  }
+  else {
+	new_root = avl_insert_sub(*root, new_node);
+	if (!new_root)
+		return NULL;
+	*root = new_root;
+  }
+  return new_node;
 }
 
-static size_t avl_get_height(t_node *root) {
-	size_t left_height;
-	size_t right_height;
-	size_t height;
+// TODO: strcmp を ft_strcmp に置き換える
+static t_node *avl_insert_sub(t_node *root, t_node *new_node) {
+  t_node *parent;
+  t_node *current;
 
-	if (!root) {
-		return 0;
+  parent = NULL;
+  current = root;
+  while (current) {
+    parent = current;
+    if (strcmp(new_node->key, current->key) > 0)
+      current = current->right;
+    else if (strcmp(new_node->key, current->key) < 0)
+      current = current->left;
+  }
+  if (strcmp(new_node->key, parent->key) > 0) {
+    parent->right = new_node;
+    new_node->parent = parent;
+  } else if (strcmp(new_node->key, parent->key) < 0) {
+    parent->left = new_node;
+    new_node->parent = parent;
+  }
+
+  current = avl_rebalance(new_node->parent);
+  while (current->parent)
+	current = current->parent;
+  return current;
+}
+
+// 平衡係数を計算して必要あれば回転する
+static t_node *avl_rebalance(t_node *parent) {
+  t_node *current;
+  int is_active;
+  int height_diff;
+
+  is_active = 1;
+  current = parent;
+  while (is_active && current->parent) {
+    height_diff = avl_get_height(current->left) - avl_get_height(current->right);
+    if (height_diff > 1) {
+      if (avl_get_height(current->left) < avl_get_height(current->left->right))
+        current = avl_rotate_left_right(current);
+      else
+        current = avl_rotate_right(current);
+	  is_active = 0;
+    } else if (height_diff < -1) {
+      if (avl_get_height(current->right) < avl_get_height(current->right->left))
+        current = avl_rotate_right_left(current);
+      else
+        current = avl_rotate_left(current);
+	  is_active = 0;
+    } else if (height_diff == 0) {
+		is_active = 0;
 	}
-	left_height = avl_get_height(root->left);
-	right_height = avl_get_height(root->right);
-	if (left_height > right_height)
-		height = left_height;
-	else
-		height = right_height;
-	return height + 1;
-}
-
-static t_node* avl_rotate_left(t_node *root) {
-	t_node *pivot;
-
-	pivot = root->right;
-	if (pivot) {
-		root->right = pivot->left;
-		pivot->left = root;
-	}
-	return pivot;
-}
-
-static t_node* avl_rotate_right(t_node *root) {
-	t_node *pivot;
-
-	pivot = root->left;
-	if (pivot) {
-		root->left = pivot->right;
-		pivot->right = root;
-	}
-	return pivot;
-}
-
-static t_node* avl_rotate_left_right(t_node *root) {
-	t_node *pivot;
-
-	pivot = avl_rotate_left(root->left);
-	root->left = pivot;
-	pivot = avl_rotate_right(root);
-	return pivot;
-}
-
-static t_node* avl_rotate_right_left(t_node *root) {
-	t_node *pivot;
-
-	pivot = avl_rotate_right(root->right);
-	root->right = pivot;
-	pivot = avl_rotate_left(root);
-	return pivot;
+	current = current->parent;
+  }
+  return current;
 }
