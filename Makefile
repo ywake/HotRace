@@ -5,13 +5,12 @@
 NAME	:= hotrace
 CC		:= gcc
 INCLUDE	:= -I./includes
-CFLAGS	:= -O3 -Wall -Werror -Wextra $(INCLUDE)
+CFLAGS	:= -O3 $(INCLUDE)
 LIBS	:=
 VPATH	:= srcs/
 
 SRCS	:= main.c \
-			utils/ft_lite_split.c \
-			utils/ft_strcmp.c \
+			$(wildcard srcs/utils/*.c) \
 			avl/avl_get.c avl/avl_insert.c avl/avl_rebalance.c avl/avl_rotations.c avl/avl_utils.c
 
 OBJDIR	:= objs/

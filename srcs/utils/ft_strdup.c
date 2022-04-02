@@ -1,20 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_set_bonus.c                                   :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ywake <ywake@student.42tokyo.jp>           +#+  +:+       +#+        */
+/*   By: jtanaka <jtanaka@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/06/27 03:06:33 by ywake             #+#    #+#             */
-/*   Updated: 2022/04/01 15:54:06 by ywake            ###   ########.fr       */
+/*   Created: 2022/04/03 02:24:07 by jtanaka           #+#    #+#             */
+/*   Updated: 2022/04/03 02:24:28 by jtanaka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 #include <stdlib.h>
 
-void	free_set(void **dst, void *src)
+char	*ft_strdup(const char *s)
 {
-	free(*dst);
-	*dst = src;
+	size_t	i;
+	size_t	s_len;
+	char	*new_str;
+
+	s_len = ft_strlen(s);
+	new_str = (char *)malloc(s_len + 1);
+	if (!new_str)
+		return (NULL);
+	i = 0;
+	while (s[i])
+	{
+		new_str[i] = s[i];
+		++i;
+	}
+	new_str[i] = '\0';
+	return (new_str);
 }
