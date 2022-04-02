@@ -13,6 +13,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 #include "avl.h"
 #include "utils.h"
@@ -29,8 +30,7 @@ t_node *avl_insert(t_node **root, char *key, char *value) {
     return NULL;
   if (*root == NULL) {
     *root = new_node;
-  }
-  else {
+  } else {
 	new_root = avl_insert_sub(*root, new_node);
 	if (!new_root)
 		return NULL;
@@ -53,6 +53,7 @@ static t_node *avl_insert_sub(t_node *root, t_node *new_node) {
     else if (strcmp(new_node->key, current->key) < 0)
       current = current->left;
   }
+  printf("parent.key: %s\n", parent->key);
   if (strcmp(new_node->key, parent->key) > 0) {
     parent->right = new_node;
     new_node->parent = parent;
@@ -61,21 +62,23 @@ static t_node *avl_insert_sub(t_node *root, t_node *new_node) {
     new_node->parent = parent;
   }
 
-  current = avl_rebalance(new_node->parent);
-  while (current->parent)
+  current = avl_rebalance(new_node);
+  while (current && current->parent)
 	current = current->parent;
   return current;
 }
 
 // 平衡係数を計算して必要あれば回転する
-static t_node *avl_rebalance(t_node *parent) {
+static t_node *avl_rebalance(t_node *new_node) {
   t_node *current;
+  t_node *child;
   int is_active;
   int height_diff;
 
   is_active = 1;
-  current = parent;
-  while (is_active && current->parent) {
+  child = new_node;
+  current = child->parent;
+  while (is_active && current) {
     height_diff = avl_get_height(current->left) - avl_get_height(current->right);
     if (height_diff > 1) {
       if (avl_get_height(current->left) < avl_get_height(current->left->right))
@@ -92,7 +95,8 @@ static t_node *avl_rebalance(t_node *parent) {
     } else if (height_diff == 0) {
 		is_active = 0;
 	}
+	child = current;
 	current = current->parent;
   }
-  return current;
+  return child;
 }
