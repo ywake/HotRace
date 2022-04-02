@@ -1,22 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ywake <ywake@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/06/28 12:41:22 by ywake             #+#    #+#             */
-/*   Updated: 2022/04/02 12:53:12 by ywake            ###   ########.fr       */
+/*   Created: 2020/06/22 14:15:41 by ywake             #+#    #+#             */
+/*   Updated: 2022/04/02 12:51:59 by ywake            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 
-#include "unistd.h"
+#include <stddef.h>
 
-void	ft_putstr_fd(char *s, int fd)
+size_t	ft_strlen(const char *s)
 {
-	if (s == NULL)
-		return ;
-	write(fd, s, ft_strlen(s));
+	size_t	len;
+
+	len = 0;
+	while (s[len])
+		++len;
+	return (len);
 }
