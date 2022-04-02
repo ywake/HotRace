@@ -10,8 +10,7 @@ LIBS	:=
 VPATH	:= srcs/
 
 SRCS	:= main.c \
-			utils/ft_lite_split.c \
-			avl/avl_get.c
+			utils/ft_lite_split.c
 
 OBJDIR	:= objs/
 OBJS	:= $(addprefix $(OBJDIR), $(SRCS:%.c=%.o))
