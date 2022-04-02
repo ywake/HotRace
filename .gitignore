@@ -18,3 +18,4 @@ destructor.c
 !auto_test.sh
 gtest
 .google_test
+googletest-release-1.11.0
