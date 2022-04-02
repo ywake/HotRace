@@ -1,4 +1,6 @@
+extern "C" {
 #include "avl.h"
+}
 
 #include <stdlib.h>
 #include <string.h>
