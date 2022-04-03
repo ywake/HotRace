@@ -6,7 +6,7 @@
 /*   By: ywake <ywake@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 13:13:05 by ywake             #+#    #+#             */
-/*   Updated: 2022/04/03 17:46:57 by ywake            ###   ########.fr       */
+/*   Updated: 2022/04/03 20:31:02 by ywake            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int		ft_strcmp(char const *s1, char const *s2);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	**ft_lite_split(char *s, char c, bool *end_with_sep);
 void	ft_putstr_fd(char *s, int fd);
+char	*ft_strchr(const char *s, int c);
 
 void	free_set(void **dst, void *src);
 

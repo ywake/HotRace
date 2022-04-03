@@ -6,7 +6,7 @@
 /*   By: ywake <ywake@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 12:54:39 by ywake             #+#    #+#             */
-/*   Updated: 2022/04/03 17:39:05 by ywake            ###   ########.fr       */
+/*   Updated: 2022/04/03 21:51:16 by ywake            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ static int	search(t_list	**buf, t_node *root, t_list *lines)
 
 	while (lines && ((char *)lines->content)[0])
 		lines = lines->next;
-	lines = lines->next;
+	if (lines)
+		lines = lines->next;
 	err = false;
 	while (lines)
 	{
@@ -74,27 +75,20 @@ static int	search(t_list	**buf, t_node *root, t_list *lines)
 
 int	main(void)
 {
-	t_list	*file;
 	t_list	*lines;
 	t_node	*root;
 	t_list	*out_buf;
 
-	file = read_stdin();
-	if (file == NULL)
-		return (1);
-	lines = file_to_lines(&file);
+	lines = read_stdin();
 	root = NULL;
 	if (insert(&root, lines) == 0)
 	{
 		out_buf = NULL;
 		if (search(&out_buf, root, lines) == 0)
-		{
 			flush_buffer(out_buf);
-		}
 	}
 	avl_free_tree(root);
 	ft_lstclear(&out_buf, NULL);
 	ft_lstclear(&lines, NULL);
-	ft_lstclear(&file, free);
 	return (0);
 }
