@@ -6,13 +6,14 @@
 /*   By: ywake <ywake@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 13:13:05 by ywake             #+#    #+#             */
-/*   Updated: 2022/04/03 15:18:36 by ywake            ###   ########.fr       */
+/*   Updated: 2022/04/03 17:46:57 by ywake            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef UTILS_H
 # define UTILS_H
 
+# include <stddef.h>
 # include <stdbool.h>
 
 typedef struct s_list
