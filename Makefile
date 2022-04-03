@@ -9,6 +9,10 @@ CFLAGS	:= -O3 -Wall -Werror -Wextra $(INCLUDE)
 LIBS	:=
 VPATH	:= srcs/
 
+ifeq ($(shell uname), Linux)
+	CFLAGS += -Wno-unused-result
+endif
+
 SRCS	:= main.c \
 			avl/avl_get.c avl/avl_insert.c avl/avl_rebalance.c avl/avl_rotations.c avl/avl_utils.c \
 			io/read_stdin.c io/buffering.c \
