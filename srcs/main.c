@@ -6,7 +6,7 @@
 /*   By: ywake <ywake@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 12:54:39 by ywake             #+#    #+#             */
-/*   Updated: 2022/04/03 21:51:16 by ywake            ###   ########.fr       */
+/*   Updated: 2022/04/03 22:41:21 by ywake            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,12 @@ static int	search(t_list	**buf, t_node *root, t_list *lines)
 int	main(void)
 {
 	t_list	*lines;
+	t_list	*gc;
 	t_node	*root;
 	t_list	*out_buf;
 
-	lines = read_stdin();
+	gc = NULL;
+	lines = read_stdin(&gc);
 	root = NULL;
 	if (insert(&root, lines) == 0)
 	{
@@ -90,5 +92,6 @@ int	main(void)
 	avl_free_tree(root);
 	ft_lstclear(&out_buf, NULL);
 	ft_lstclear(&lines, NULL);
+	ft_lstclear(&gc, free);
 	return (0);
 }
