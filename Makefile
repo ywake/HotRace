@@ -48,7 +48,7 @@ norm: FORCE
 	|| printf "$(GREEN)%s\n$(END)" "Norm OK!"
 
 $(OBJDIR)%.o: %.c
-	mkdir -p $(OBJDIR)$(*D)
+	@mkdir -p $(OBJDIR)$(*D)
 	@printf "$(THIN)$(ITALIC)"
 	$(CC) $(CFLAGS) -c $< -o $@
 	@printf "$(END)"
@@ -78,7 +78,7 @@ leak: $(shell uname)_leak
 ##############
 
 CXX			:= clang++
-CXXFLAG		:= -std=c++11 -DDEBUG -g -fsanitize=integer -fsanitize=address -Wno-writable-strings
+CXXFLAG		:= -std=c++11 -g -fsanitize=address -Wno-writable-strings
 gTestDir	:= ./.google_test
 gVersion	:= release-1.11.0
 gTestVer	:= googletest-$(gVersion)
