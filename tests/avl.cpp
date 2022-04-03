@@ -38,14 +38,16 @@ TEST(AVLTree, Random100000) {
   map_type m;
 
   printf("start insert data\n");
+  char *keys[MAX_NUM];
+  char *values[MAX_NUM];
   for (int i = 0; i < MAX_NUM; ++i) {
-    char *key = ft_itoa(rand());
-    char *value = ft_itoa(i);
-    m[std::string(key)] = std::string(value);
-    t_node *new_node_ptr = avl_insert(&tree, strdup(key), strdup(value));
+      keys[i] = ft_itoa(rand());
+      values[i] = ft_itoa(i);
+  }
+  for (int i = 0; i < MAX_NUM; ++i) {
+    m[std::string(keys[i])] = std::string(values[i]);
+    t_node *new_node_ptr = avl_insert(&tree, keys[i], values[i]);
     EXPECT_TRUE(new_node_ptr);
-    free(key);
-    free(value);
   }
 
   printf("start search data\n");
@@ -60,6 +62,10 @@ TEST(AVLTree, Random100000) {
                        it->second.c_str()) == 0);
   }
 
+  for (int i = 0; i < MAX_NUM; ++i) {
+      free(keys[i]);
+      free(values[i]);
+  }
   avl_free_tree(tree);
 }
 
@@ -70,12 +76,20 @@ TEST(AVLTree, AlwaysKeepsRules) {
 
   t_node *tree = NULL;
 
+  char *keys[MAX_NUM];
+  char *values[MAX_NUM];
   for (int i = 0; i < MAX_NUM; ++i) {
-    char *str = ft_itoa(i);
-    t_node *new_node_ptr = avl_insert(&tree, strdup(str), strdup(str));
+      keys[i] = ft_itoa(i);
+      values[i] = ft_itoa(i);
+  }
+  for (int i = 0; i < MAX_NUM; ++i) {
+    t_node *new_node_ptr = avl_insert(&tree, keys[i], values[i]);
     EXPECT_TRUE(new_node_ptr);
-    free(str);
     exepct_avl_tree_keeps_rules(tree);
+  }
+  for (int i = 0; i < MAX_NUM; ++i) {
+      free(keys[i]);
+      free(values[i]);
   }
   avl_free_tree(tree);
 }
@@ -87,12 +101,20 @@ TEST(AVLTree, InsertDuplicatedKeys) {
 
   t_node *tree = NULL;
 
+  char *keys[MAX_NUM];
+  char *values[MAX_NUM];
   for (int i = 0; i < MAX_NUM; ++i) {
-    char *str = ft_itoa(i % 100);
-    t_node *new_node_ptr = avl_insert(&tree, strdup(str), strdup(str));
+      keys[i] = ft_itoa(i % 100);
+      values[i] = ft_itoa(i % 100);
+  }
+  for (int i = 0; i < MAX_NUM; ++i) {
+    t_node *new_node_ptr = avl_insert(&tree, keys[i], values[i]);
     EXPECT_TRUE(new_node_ptr);
-    free(str);
     exepct_avl_tree_keeps_rules(tree);
+  }
+  for (int i = 0; i < MAX_NUM; ++i) {
+      free(keys[i]);
+      free(values[i]);
   }
   avl_free_tree(tree);
 }
