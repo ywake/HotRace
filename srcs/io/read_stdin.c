@@ -6,7 +6,7 @@
 /*   By: ywake <ywake@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 13:54:05 by ywake             #+#    #+#             */
-/*   Updated: 2022/04/03 09:08:39 by ywake            ###   ########.fr       */
+/*   Updated: 2022/04/03 10:57:31 by ywake            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,10 @@
 #include <string.h>
 #include "utils.h"
 
-// #define BUF_SIZE (1024 * 1024)
-#define BUF_SIZE (10)
+#define BUF_SIZE (1048576)
 
-static char	**read_abort(char *read_buf, char *file)
+static char	**read_abort(char *file)
 {
-	free(read_buf);
 	free(file);
 	return (NULL);
 }
@@ -35,23 +33,20 @@ static char	**read_abort(char *read_buf, char *file)
 char	**read_stdin(void)
 {
 	ssize_t	read_size;
-	char	*read_buf;
+	char	read_buf[BUF_SIZE];
 	char	*file;
 
 	read_size = BUF_SIZE;
 	file = NULL;
-	read_buf = (char *)malloc(BUF_SIZE + 1);
-	if (read_buf == NULL)
-		return (read_abort(read_buf, file));
 	while (read_size > 0)
 	{
 		read_size = read(STDIN_FILENO, read_buf, BUF_SIZE);
 		read_buf[read_size] = '\0';
 		if (read_size < 0)
-			return (read_abort(read_buf, file));
+			return (read_abort(file));
 		free_set((void **)&file, ft_strjoin(file, read_buf));
 		if (file == NULL)
-			return (read_abort(read_buf, file));
+			return (read_abort(file));
 	}
 	return (ft_lite_split(file, '\n'));
 }
