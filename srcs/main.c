@@ -6,7 +6,7 @@
 /*   By: ywake <ywake@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 12:54:39 by ywake             #+#    #+#             */
-/*   Updated: 2022/04/03 10:45:32 by ywake            ###   ########.fr       */
+/*   Updated: 2022/04/03 12:57:50 by ywake            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,23 @@ static int	insert(t_node **tree, char **inputs)
 	char	*key;
 	char	*value;
 
+	key = NULL;
+	value = NULL;
 	i = 0;
 	while (inputs[i] && inputs[i][0])
 	{
-		key = inputs[i++];
-		value = inputs[i++];
-		if (!key || !value)
-			return (-1);
-		avl_insert(tree, key, value);
+		if (i % 2 == 0)
+			key = inputs[i];
+		else
+		{
+			value = inputs[i];
+			if (!key || !value)
+				return (-1);
+			avl_insert(tree, key, value);
+			key = NULL;
+			value = NULL;
+		}
+		i++;
 	}
 	return (i);
 }
