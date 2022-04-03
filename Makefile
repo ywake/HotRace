@@ -3,7 +3,7 @@
 #############
 
 NAME	:= hotrace
-CC		:= gcc
+CC		:= cc
 INCLUDE	:= -I./includes
 CFLAGS	:= -O3 -Wall -Werror -Wextra $(INCLUDE)
 LIBS	:=

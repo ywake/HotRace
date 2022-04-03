@@ -6,7 +6,7 @@
 /*   By: ywake <ywake@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 12:54:39 by ywake             #+#    #+#             */
-/*   Updated: 2022/04/03 10:07:25 by ywake            ###   ########.fr       */
+/*   Updated: 2022/04/03 10:45:32 by ywake            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ int	main(void)
 	out_buf = NULL;
 	if (search(&out_buf, root, inputs + i + 1) == 0)
 		flush_buffer(out_buf);
+	avl_free_tree(root);
 	ft_lstclear(&out_buf, NULL);
 	free(inputs[0]);
 	free(inputs);

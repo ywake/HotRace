@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   avl_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtanaka <jtanaka@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: ywake <ywake@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 00:53:29 by jtanaka           #+#    #+#             */
-/*   Updated: 2022/04/03 00:55:01 by jtanaka          ###   ########.fr       */
+/*   Updated: 2022/04/03 10:46:28 by ywake            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,6 @@ t_node	*avl_malloc_node(char *key, char *value)
 
 void	avl_free_node(t_node *node)
 {
-	free(node->key);
-	free(node->value);
 	free(node);
 }
 
