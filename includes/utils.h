@@ -6,7 +6,7 @@
 /*   By: ywake <ywake@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 13:13:05 by ywake             #+#    #+#             */
-/*   Updated: 2022/04/02 13:01:44 by ywake            ###   ########.fr       */
+/*   Updated: 2022/04/03 14:17:24 by ywake            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define UTILS_H
 
 # include <stddef.h>
+# include <sys/types.h>
 
 typedef struct s_list
 {
@@ -35,5 +36,7 @@ char	**ft_lite_split(char *s, char c);
 void	ft_putstr_fd(char *s, int fd);
 
 void	free_set(void **dst, void *src);
+
+ssize_t	get_time(void);
 
 #endif

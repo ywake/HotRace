@@ -6,7 +6,7 @@
 /*   By: ywake <ywake@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 12:54:39 by ywake             #+#    #+#             */
-/*   Updated: 2022/04/03 12:57:50 by ywake            ###   ########.fr       */
+/*   Updated: 2022/04/03 14:14:33 by ywake            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 #include <stdlib.h>
 #include <stdbool.h>
+#include <stdio.h>
 
 static int	insert(t_node **tree, char **inputs)
 {
@@ -70,24 +71,50 @@ static int	search(t_list	**buf, t_node *root, char **inputs)
 	return (-err);
 }
 
+enum e_times
+{
+	START,
+	READ,
+	INSERT,
+	SEARCH,
+	FLUSH,
+	CLEAR,
+	LEN
+};
+
 int	main(void)
 {
 	t_node	*root;
 	t_list	*out_buf;
 	char	**inputs;
 	int		i;
+	ssize_t	times[LEN];
 
 	root = NULL;
+	times[START] = get_time();
 	inputs = read_stdin();
+	times[READ] = get_time();
 	i = insert(&root, inputs);
+	times[INSERT] = get_time();
 	if (i < 0)
 		return (1);
 	out_buf = NULL;
 	if (search(&out_buf, root, inputs + i + 1) == 0)
+	{
+		times[SEARCH] = get_time();
 		flush_buffer(out_buf);
+		times[FLUSH] = get_time();
+	}
 	avl_free_tree(root);
 	ft_lstclear(&out_buf, NULL);
 	free(inputs[0]);
 	free(inputs);
+	times[CLEAR] = get_time();
+	fprintf(stderr, "TOTAL: %zd\n", times[CLEAR] - times[START]);
+	fprintf(stderr, "READ: %zd\n", times[READ] - times[START]);
+	fprintf(stderr, "INSERT: %zd\n", times[INSERT] - times[READ]);
+	fprintf(stderr, "SEARCH: %zd\n", times[SEARCH] - times[INSERT]);
+	fprintf(stderr, "FLUSH: %zd\n", times[FLUSH] - times[SEARCH]);
+	fprintf(stderr, "CLEAR: %zd\n", times[CLEAR] - times[FLUSH]);
 	return (0);
 }
