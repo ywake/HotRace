@@ -14,16 +14,16 @@ ifeq ($(shell uname), Linux)
 endif
 
 SRCS	:= main.c \
-			avl/avl_get.c avl/avl_insert.c avl/avl_rebalance.c avl/avl_rotations.c avl/avl_utils.c \
-			io/read_stdin.c io/buffering.c \
-			utils/free_set.c utils/ft_lite_split.c utils/ft_putstr_fd.c utils/ft_strcmp.c utils/ft_strjoin.c utils/ft_strlen.c \
-			utils/ft_lst_reverse.c utils/ft_lstadd_front.c utils/ft_lstclear.c utils/ft_lstdelone.c utils/ft_lstnew.c \
-			utils/ft_strchr.c
+		avl_get.c avl_insert.c avl_rebalance.c avl_rotations.c avl_utils.c \
+		read_stdin.c buffering.c \
+		free_set.c ft_lite_split.c ft_putstr_fd.c ft_strcmp.c ft_strjoin.c ft_strlen.c \
+		ft_lst_reverse.c ft_lstadd_front.c ft_lstclear.c ft_lstdelone.c ft_lstnew.c \
+		ft_strchr.c
 
 OBJDIR	:= objs/
 OBJS	:= $(addprefix $(OBJDIR), $(SRCS:%.c=%.o))
 
-DSTRCTR	:= ./tests/destructor.c
+DSTRCTR	:= ./destructor.c
 
 #################
 # General rules #
