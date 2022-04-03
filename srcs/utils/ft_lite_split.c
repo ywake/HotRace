@@ -6,7 +6,7 @@
 /*   By: ywake <ywake@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/27 17:25:26 by ywake             #+#    #+#             */
-/*   Updated: 2022/04/02 04:53:36 by ywake            ###   ########.fr       */
+/*   Updated: 2022/04/03 17:44:25 by ywake            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 /**
  * No allocations except return char **.
  */
-char	**ft_lite_split(char *s, char c)
+char	**ft_lite_split(char *s, char c, bool *end_with_sep)
 {
 	char		**buf;
 	const char	*ptr;
@@ -32,17 +32,18 @@ char	**ft_lite_split(char *s, char c)
 	buf = (char **)malloc(sizeof(char *) * i);
 	while (buf && i)
 		buf[--i] = NULL;
+	ptr = s;
 	while (buf && *s)
 	{
 		if (buf[i] == NULL)
 			buf[i] = s;
 		if (*s == c)
-		{
 			*s = '\0';
+		if (*s == '\0')
 			++i;
-		}
 		++s;
 	}
+	*end_with_sep = (s != ptr) && (*(s - 1) == '\0');
 	return (buf);
 }
 
