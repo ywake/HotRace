@@ -1,22 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   io.h                                               :+:      :+:    :+:   */
+/*   ft_lstclear.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ywake <ywake@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/01 13:31:07 by ywake             #+#    #+#             */
-/*   Updated: 2022/04/03 09:43:00 by ywake            ###   ########.fr       */
+/*   Created: 2020/06/29 03:03:32 by ywake             #+#    #+#             */
+/*   Updated: 2022/04/01 14:34:16 by ywake            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef IO_H
-# define IO_H
+#include "utils.h"
 
-# include "utils.h"
+void	ft_lstclear(t_list **lst, void (*del)(void *))
+{
+	t_list	*cur;
 
-char	**read_stdin(void);
-int		add_to_buffer(t_list **buf, char *str);
-void	flush_buffer(t_list *buf);
-
-#endif
+	while (*lst)
+	{
+		cur = *lst;
+		*lst = cur->next;
+		ft_lstdelone(cur, del);
+	}
+}

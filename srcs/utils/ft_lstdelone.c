@@ -1,22 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   io.h                                               :+:      :+:    :+:   */
+/*   ft_lstdelone.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ywake <ywake@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/01 13:31:07 by ywake             #+#    #+#             */
-/*   Updated: 2022/04/03 09:43:00 by ywake            ###   ########.fr       */
+/*   Created: 2020/06/29 02:18:42 by ywake             #+#    #+#             */
+/*   Updated: 2022/04/03 09:38:19 by ywake            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef IO_H
-# define IO_H
+#include "utils.h"
 
-# include "utils.h"
+#include <stdlib.h>
 
-char	**read_stdin(void);
-int		add_to_buffer(t_list **buf, char *str);
-void	flush_buffer(t_list *buf);
-
-#endif
+void	ft_lstdelone(t_list *lst, void (*del)(void *))
+{
+	if (del)
+		del(lst->content);
+	lst->content = NULL;
+	lst->next = NULL;
+	free(lst);
+}

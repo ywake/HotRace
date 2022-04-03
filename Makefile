@@ -10,9 +10,10 @@ LIBS	:=
 VPATH	:= srcs/
 
 SRCS	:= main.c \
-			utils/ft_lite_split.c \
-			utils/ft_strcmp.c \
-			avl/avl_get.c avl/avl_insert.c avl/avl_rebalance.c avl/avl_rotations.c avl/avl_utils.c
+			avl/avl_get.c avl/avl_insert.c avl/avl_rebalance.c avl/avl_rotations.c avl/avl_utils.c \
+			io/read_stdin.c io/buffering.c \
+			utils/free_set.c utils/ft_lite_split.c utils/ft_putstr_fd.c utils/ft_strcmp.c utils/ft_strjoin.c utils/ft_strlen.c \
+			utils/ft_lst_reverse.c utils/ft_lstadd_front.c utils/ft_lstclear.c utils/ft_lstdelone.c utils/ft_lstnew.c
 
 OBJDIR	:= objs/
 OBJS	:= $(addprefix $(OBJDIR), $(SRCS:%.c=%.o))

@@ -6,38 +6,78 @@
 /*   By: ywake <ywake@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 12:54:39 by ywake             #+#    #+#             */
-/*   Updated: 2022/04/01 14:53:21 by ywake            ###   ########.fr       */
+/*   Updated: 2022/04/03 10:07:25 by ywake            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "avl.h"
 #include "io.h"
+#include "utils.h"
 
-static int insert_from_stdin(t_node *tree){
-	while (改行出るまで){
-	char *key = readline();
-	char *value = readline();
-	avl_insert(tree, key, value);
+#include <stdlib.h>
+#include <stdbool.h>
+
+static int	insert(t_node **tree, char **inputs)
+{
+	int		i;
+	char	*key;
+	char	*value;
+
+	i = 0;
+	while (inputs[i] && inputs[i][0])
+	{
+		key = inputs[i++];
+		value = inputs[i++];
+		if (!key || !value)
+			return (-1);
+		avl_insert(tree, key, value);
 	}
+	return (i);
 }
 
-static int search(t_node *root) {
-	while (EOFまで)
+static int	search(t_list	**buf, t_node *root, char **inputs)
+{
+	int		i;
+	char	*keyword;
+	t_node	*node;
+	bool	err;
+
+	err = false;
+	i = 0;
+	while (inputs[i])
 	{
-		char *keyword = readline();
-		t_node *node = avl_get(keyword);
-		printf("%s\n", node->value);
+		keyword = inputs[i++];
+		node = avl_get(root, keyword);
+		if (node)
+			err = err || add_to_buffer(buf, node->value);
+		else
+		{
+			err = err || add_to_buffer(buf, keyword);
+			err = err || add_to_buffer(buf, ": Not found.");
+		}
+		err = err || add_to_buffer(buf, "\n");
 	}
+	ft_lst_reverse(buf);
+	return (-err);
 }
 
 int	main(void)
 {
 	t_node	*root;
-	char	**input;  // ["key1", "value1", "", "search1", "search2", NULL]
+	t_list	*out_buf;
+	char	**inputs;
+	int		i;
 
-	input = read_stdin();
-	insert_from_stdin(root);
-	search(root);
-	free_all(input);
+	root = NULL;
+	inputs = read_stdin();
+	i = insert(&root, inputs);
+	if (i < 0)
+		return (1);
+	out_buf = NULL;
+	if (search(&out_buf, root, inputs + i + 1) == 0)
+		flush_buffer(out_buf);
+	ft_lstclear(&out_buf, NULL);
+	free(inputs[0]);
+	free(inputs);
 	return (0);
 }

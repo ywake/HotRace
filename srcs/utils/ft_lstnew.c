@@ -1,22 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   io.h                                               :+:      :+:    :+:   */
+/*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ywake <ywake@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/01 13:31:07 by ywake             #+#    #+#             */
-/*   Updated: 2022/04/03 09:43:00 by ywake            ###   ########.fr       */
+/*   Created: 2020/06/28 16:29:36 by ywake             #+#    #+#             */
+/*   Updated: 2022/04/03 09:27:41 by ywake            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef IO_H
-# define IO_H
+#include "utils.h"
 
-# include "utils.h"
+#include <stdlib.h>
 
-char	**read_stdin(void);
-int		add_to_buffer(t_list **buf, char *str);
-void	flush_buffer(t_list *buf);
+t_list	*ft_lstnew(void *content)
+{
+	t_list	*elem;
 
-#endif
+	elem = (t_list *)malloc(sizeof(t_list));
+	if (elem == NULL)
+		return (NULL);
+	elem->content = content;
+	elem->next = NULL;
+	return (elem);
+}
