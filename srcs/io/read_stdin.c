@@ -6,7 +6,7 @@
 /*   By: ywake <ywake@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 13:54:05 by ywake             #+#    #+#             */
-/*   Updated: 2022/04/03 10:57:31 by ywake            ###   ########.fr       */
+/*   Updated: 2022/04/03 17:48:44 by ywake            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,34 +19,39 @@
 #include <string.h>
 #include "utils.h"
 
-#define BUF_SIZE (1048576)
+#define BUF_SIZE (104857600)
+// #define BUF_SIZE (2)
 
-static char	**read_abort(char *file)
+static t_list	*read_abort(char *read_buf, t_list *file)
 {
-	free(file);
+	free(read_buf);
+	ft_lstclear(&file, free);
 	return (NULL);
 }
 
 /**
  * @return ["key1", "value1", "", "search1", "search2", "", NULL] in heap
  */
-char	**read_stdin(void)
+t_list	*read_stdin(void)
 {
 	ssize_t	read_size;
-	char	read_buf[BUF_SIZE];
-	char	*file;
+	char	*read_buf;
+	t_list	*file;
 
-	read_size = BUF_SIZE;
+	read_size = 1;
 	file = NULL;
 	while (read_size > 0)
 	{
+		read_buf = (char *)malloc(sizeof(char) * (BUF_SIZE + 1));
+		if (read_buf == NULL)
+			return (read_abort(read_buf, file));
 		read_size = read(STDIN_FILENO, read_buf, BUF_SIZE);
-		read_buf[read_size] = '\0';
 		if (read_size < 0)
-			return (read_abort(file));
-		free_set((void **)&file, ft_strjoin(file, read_buf));
-		if (file == NULL)
-			return (read_abort(file));
+			return (read_abort(read_buf, file));
+		read_buf[read_size] = '\0';
+		if (ft_lstadd_front(&file, ft_lstnew(read_buf)))
+			return (read_abort(read_buf, file));
 	}
-	return (ft_lite_split(file, '\n'));
+	ft_lst_reverse(&file);
+	return (file);
 }

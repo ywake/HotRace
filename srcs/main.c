@@ -6,7 +6,7 @@
 /*   By: ywake <ywake@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 12:54:39 by ywake             #+#    #+#             */
-/*   Updated: 2022/04/03 12:57:50 by ywake            ###   ########.fr       */
+/*   Updated: 2022/04/03 17:39:05 by ywake            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-static int	insert(t_node **tree, char **inputs)
+static int	insert(t_node **tree, t_list *lines)
 {
 	int		i;
 	char	*key;
@@ -26,36 +26,37 @@ static int	insert(t_node **tree, char **inputs)
 	key = NULL;
 	value = NULL;
 	i = 0;
-	while (inputs[i] && inputs[i][0])
+	while (lines && ((char *)lines->content)[0])
 	{
 		if (i % 2 == 0)
-			key = inputs[i];
+			key = ((char *)lines->content);
 		else
 		{
-			value = inputs[i];
-			if (!key || !value)
+			value = ((char *)lines->content);
+			if (avl_insert(tree, key, value) == NULL)
 				return (-1);
-			avl_insert(tree, key, value);
 			key = NULL;
 			value = NULL;
 		}
+		lines = lines->next;
 		i++;
 	}
-	return (i);
+	return (0);
 }
 
-static int	search(t_list	**buf, t_node *root, char **inputs)
+static int	search(t_list	**buf, t_node *root, t_list *lines)
 {
-	int		i;
 	char	*keyword;
 	t_node	*node;
 	bool	err;
 
+	while (lines && ((char *)lines->content)[0])
+		lines = lines->next;
+	lines = lines->next;
 	err = false;
-	i = 0;
-	while (inputs[i])
+	while (lines)
 	{
-		keyword = inputs[i++];
+		keyword = (char *)lines->content;
 		node = avl_get(root, keyword);
 		if (node)
 			err = err || add_to_buffer(buf, node->value);
@@ -65,6 +66,7 @@ static int	search(t_list	**buf, t_node *root, char **inputs)
 			err = err || add_to_buffer(buf, ": Not found.");
 		}
 		err = err || add_to_buffer(buf, "\n");
+		lines = lines->next;
 	}
 	ft_lst_reverse(buf);
 	return (-err);
@@ -72,22 +74,27 @@ static int	search(t_list	**buf, t_node *root, char **inputs)
 
 int	main(void)
 {
+	t_list	*file;
+	t_list	*lines;
 	t_node	*root;
 	t_list	*out_buf;
-	char	**inputs;
-	int		i;
 
-	root = NULL;
-	inputs = read_stdin();
-	i = insert(&root, inputs);
-	if (i < 0)
+	file = read_stdin();
+	if (file == NULL)
 		return (1);
-	out_buf = NULL;
-	if (search(&out_buf, root, inputs + i + 1) == 0)
-		flush_buffer(out_buf);
+	lines = file_to_lines(&file);
+	root = NULL;
+	if (insert(&root, lines) == 0)
+	{
+		out_buf = NULL;
+		if (search(&out_buf, root, lines) == 0)
+		{
+			flush_buffer(out_buf);
+		}
+	}
 	avl_free_tree(root);
 	ft_lstclear(&out_buf, NULL);
-	free(inputs[0]);
-	free(inputs);
+	ft_lstclear(&lines, NULL);
+	ft_lstclear(&file, free);
 	return (0);
 }
