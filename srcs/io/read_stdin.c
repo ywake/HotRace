@@ -6,7 +6,7 @@
 /*   By: ywake <ywake@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 13:54:05 by ywake             #+#    #+#             */
-/*   Updated: 2022/04/02 13:22:01 by ywake            ###   ########.fr       */
+/*   Updated: 2022/04/03 09:08:39 by ywake            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ char	**read_stdin(void)
 	ssize_t	read_size;
 	char	*read_buf;
 	char	*file;
-	char	**input;
 
 	read_size = BUF_SIZE;
 	file = NULL;

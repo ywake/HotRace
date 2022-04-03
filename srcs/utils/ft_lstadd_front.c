@@ -1,22 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   io.h                                               :+:      :+:    :+:   */
+/*   ft_lstadd_front.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ywake <ywake@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/01 13:31:07 by ywake             #+#    #+#             */
-/*   Updated: 2022/04/03 09:43:00 by ywake            ###   ########.fr       */
+/*   Created: 2020/06/28 17:00:13 by ywake             #+#    #+#             */
+/*   Updated: 2022/04/01 14:22:01 by ywake            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef IO_H
-# define IO_H
+#include "utils.h"
 
-# include "utils.h"
+#include <stddef.h>
 
-char	**read_stdin(void);
-int		add_to_buffer(t_list **buf, char *str);
-void	flush_buffer(t_list *buf);
-
-#endif
+void	ft_lstadd_front(t_list **lst, t_list *new)
+{
+	new->next = *lst;
+	*lst = new;
+}
